@@ -1,0 +1,14 @@
+{
+    "allowCustomDataForDataTypeAny": true,
+    "functions": [
+        {
+            "description": "Shared-runtime verification marker.",
+            "id": "AIPING",
+            "name": "AIPING",
+            "parameters": [],
+            "result": {
+                "type": "string"
+            }
+        }
+    ]
+}

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  PRODUCTION manifest served at https://kotali-2019.github.io/excel-ai-addin-pages
+  Source of truth: /manifest.xml (developer manifest; keep in sync on every release).
+
+  Publishing: after `npm run build`, copy this file over dist/manifest.xml before
+  packaging the release (see deploy/DEPLOY.md, step PUBLISH-02).
+  Gate: this file must contain no local-dev or placeholder URL values.
+-->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  <!-- Identity: NEVER change <Id> or the AIASSIST namespace in production. -->
+  <Id>3b7f9a8c-4c2e-4a66-9a52-3b0d41a37b46</Id>
+  <!-- Bump for EVERY manifest change/upload (M3.1 rule). Baseline: 1.0.0.0 -->
+  <Version>1.0.0.2</Version>
+  <ProviderName>Excel AI Assistant</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="AI Assistant for Excel"/>
+  <Description DefaultValue="Chat with your workbook through any OpenAI-compatible LLM (cloud or local). Analyze data, fix and generate formulas, extract tables from images."/>
+  <IconUrl DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/assets/icon-80.png"/>
+  <!-- TODO(M3.1): replace with the real support/help-desk URL before staff upload. -->
+  <SupportUrl DefaultValue="https://github.com/Kotali-2019/excel-ai-assistant"/>
+  <AppDomains>
+    <AppDomain>https://kotali-2019.github.io</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Workbook"/>
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="SharedRuntime" MinVersion="1.1"/>
+    </Sets>
+  </Requirements>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/index.html"/>
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <Runtimes>
+          <!-- Long-lived shared runtime: hosts the task pane and custom functions in one runtime. -->
+          <Runtime resid="Shared.Url" lifetime="long"/>
+        </Runtimes>
+        <AllFormFactors>
+          <ExtensionPoint xsi:type="CustomFunctions">
+            <Script>
+              <SourceLocation resid="Functions.Script.Url"/>
+            </Script>
+            <Page>
+              <SourceLocation resid="Shared.Url"/>
+            </Page>
+            <Metadata>
+              <SourceLocation resid="Functions.Metadata.Url"/>
+            </Metadata>
+            <Namespace resid="Functions.Namespace"/>
+          </ExtensionPoint>
+        </AllFormFactors>
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+          <FunctionFile resid="Shared.Url"/>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="AiAssistantGroup">
+                <Label resid="AiAssistantGroup.Label"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
+                </Icon>
+                <Control xsi:type="Button" id="AiAssistantButton">
+                  <Label resid="AiAssistantButton.Label"/>
+                  <Supertip>
+                    <Title resid="AiAssistantButton.Label"/>
+                    <Description resid="AiAssistantButton.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="Shared.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Functions.Script.Url" DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/functions.js"/>
+        <bt:Url id="Functions.Metadata.Url" DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/functions.json"/>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://learn.microsoft.com/office/dev/add-ins/excel/excel-custom-functions"/>
+        <bt:Url id="Shared.Url" DefaultValue="https://kotali-2019.github.io/excel-ai-addin-pages/index.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="Functions.Namespace" DefaultValue="AIASSIST"/>
+        <bt:String id="GetStarted.Title" DefaultValue="AI Assistant for Excel loaded"/>
+        <bt:String id="AiAssistantGroup.Label" DefaultValue="AI Assistant"/>
+        <bt:String id="AiAssistantButton.Label" DefaultValue="Open AI Assistant"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="The add-in loaded successfully. Go to HOME and click 'Open AI Assistant' to chat with your workbook through a local or cloud LLM."/>
+        <bt:String id="AiAssistantButton.Tooltip" DefaultValue="Open the AI Assistant task pane"/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
